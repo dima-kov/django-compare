@@ -3,7 +3,7 @@ from django.utils.safestring import mark_safe
 
 
 class BaseCompareWidget:
-    template_name = 'comparison/widgets/compare_field.html'
+    template_name = 'compare/widgets/compare_field.html'
     renderer = TemplatesSetting()
 
     def render(self, first, second, differ, field_label):
@@ -25,7 +25,7 @@ class CompareWidget(BaseCompareWidget):
 
 
 class InternalCompareWidget(BaseCompareWidget):
-    template_name = 'comparison/widgets/multiple_compare_field.html'
+    template_name = 'compare/widgets/multiple_compare_field.html'
 
     def render(self, internal_comparator, differences, field_label):
         related_result = ''
@@ -45,7 +45,7 @@ class InternalCompareWidget(BaseCompareWidget):
 
 
 class MultipleCompareWidget(BaseCompareWidget):
-    template_name = 'comparison/widgets/multiple_compare_field.html'
+    template_name = 'compare/widgets/multiple_compare_field.html'
 
     def render(self, internal_comparator, differences, field_label):
         related_result = ''

@@ -1,0 +1,7 @@
+<tr {% if differences %}class="differ"{% endif %}>
+    <td colspan="3" class="table-title">
+        {{ field_label }}
+    </td>
+</tr>
+
+{{ related_result|safe }}

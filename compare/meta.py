@@ -2,7 +2,7 @@ from collections import OrderedDict
 from itertools import chain
 
 from django.core.exceptions import FieldError, ImproperlyConfigured
-from django.db.models import OneToOneRel, ManyToOneRel
+from django.db.models import OneToOneRel, ManyToOneRel, ForeignKey
 from django.forms import ALL_FIELDS
 from django.forms.forms import DeclarativeFieldsMetaclass
 
@@ -143,6 +143,8 @@ def model_to_dict(instance, fields=None, exclude=None):
             data[f.name] = getattr(instance, f.name)
         elif isinstance(f, ManyToOneRel):
             data[f.name] = getattr(instance, f.name).all()
+        elif isinstance(f, ForeignKey):
+            data[f.name] = getattr(instance, f.name)
         else:
             data[f.name] = f.value_from_object(instance)
 

@@ -157,7 +157,7 @@ def compare_field_factory(field, related_comparator=None, widget=None):
     if isinstance(field, models.CharField):
         return CompareField(field.name, field.verbose_name, widget=widget)
 
-    if isinstance(field, models.OneToOneRel):
+    if isinstance(field, models.OneToOneRel) or isinstance(field, models.ForeignKey):
         return OneToOneCompareField(field.name, field.related_model._meta.verbose_name, related_comparator)
 
     if isinstance(field, models.ManyToOneRel):

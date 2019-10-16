@@ -40,9 +40,10 @@ class BaseCompareField(object):
     differs = None
     is_related = False
 
-    def __init__(self, name, label):
+    def __init__(self, name, label, widget=None):
         self.name = name
         self.label = label
+        self.widget = widget or self.widget
 
     @Decorators.init_differ
     def differ(self):
@@ -152,9 +153,9 @@ class RelatedForeignKeyCompareField(FieldAsComparator):
     pass
 
 
-def compare_field_factory(field, related_comparator=None):
+def compare_field_factory(field, related_comparator=None, widget=None):
     if isinstance(field, models.CharField):
-        return CompareField(field.name, field.verbose_name)
+        return CompareField(field.name, field.verbose_name, widget=widget)
 
     if isinstance(field, models.OneToOneRel):
         return OneToOneCompareField(field.name, field.related_model._meta.verbose_name, related_comparator)
@@ -162,4 +163,4 @@ def compare_field_factory(field, related_comparator=None):
     if isinstance(field, models.ManyToOneRel):
         return RelatedForeignKeyCompareField(field.name, field.related_model._meta.verbose_name, related_comparator)
 
-    return CompareField(field.name, field.verbose_name)
+    return CompareField(field.name, field.verbose_name, widget=widget)

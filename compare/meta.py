@@ -15,6 +15,7 @@ class ModelComparatorOptions:
         self.fields = getattr(options, 'fields', None)
         self.exclude = getattr(options, 'exclude', None)
         self.related = getattr(options, 'related', None)
+        self.widgets = getattr(options, 'widgets', None)
 
 
 class ModelComparatorMetaclass(DeclarativeFieldsMetaclass):
@@ -52,7 +53,7 @@ class ModelComparatorMetaclass(DeclarativeFieldsMetaclass):
                 opts.fields = None
 
             fields = fields_for_comparator(
-                opts.model, opts.fields, opts.exclude, opts.related,
+                opts.model, opts.fields, opts.exclude, opts.related, opts.widgets,
             )
 
             # make sure opts.fields doesn't specify an invalid field
@@ -71,7 +72,7 @@ class ModelComparatorMetaclass(DeclarativeFieldsMetaclass):
         return new_class
 
 
-def fields_for_comparator(model, fields=None, exclude=None, related_comparators=None):
+def fields_for_comparator(model, fields=None, exclude=None, related_comparators=None, widgets=None):
     """
     Return an ``OrderedDict`` containing form fields for the given model.
 
@@ -97,6 +98,8 @@ def fields_for_comparator(model, fields=None, exclude=None, related_comparators=
         kwargs = {}
         if related_comparators:
             kwargs['related_comparator'] = related_comparators.get(f.name, None)
+        if widgets:
+            kwargs['widget'] = widgets.get(f.name, None)
 
         compare_field = compare_field_factory(f, **kwargs)
 

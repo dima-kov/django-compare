@@ -140,7 +140,10 @@ def model_to_dict(instance, fields=None, exclude=None):
             continue
 
         if isinstance(f, OneToOneRel):
-            data[f.name] = getattr(instance, f.name)
+            if hasattr(instance, f.name):
+                data[f.name] = getattr(instance, f.name)
+            else:
+                data[f.name] = f.related_model()
         elif isinstance(f, ManyToOneRel):
             data[f.name] = getattr(instance, f.name).all()
         elif isinstance(f, ForeignKey):

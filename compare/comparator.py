@@ -1,5 +1,6 @@
 import copy
 
+from compare.fields import CompareField
 from compare.meta import model_to_dict, ModelComparatorMetaclass
 
 
@@ -23,12 +24,19 @@ class BaseModelComparator(object):
         self.first_object_data = model_to_dict(self.first, opts.fields, opts.exclude)
         self.second_object_data = model_to_dict(self.second, opts.fields, opts.exclude)
 
-    def __getitem__(self, item):
-        return self.get_bound_field(item)
+    def __getitem__(self, field_name):
+        return self.get_bound_field(field_name)
 
     def __iter__(self):
         for name in self.fields:
             yield self[name]
+
+    @classmethod
+    def get_fields(cls):
+        fields_values = list(cls.base_fields.values())
+        fields_names = list(cls.base_fields.keys())
+        for i in range(len(fields_values)):
+            yield fields_names[i], fields_values[i]
 
     def compare(self):
         differences = 0

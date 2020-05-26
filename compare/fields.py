@@ -96,7 +96,7 @@ class InternalFieldComparator(BaseCompareField):
         self.related_comparator_class = related_comparator_class
 
     def _differs(self):
-        return self.get_related_comparator().compare_fields()
+        return self.get_related_comparator().compare()
 
     def get_related_comparator(self):
         if self.internal_comparator is None:
